@@ -7,13 +7,17 @@
 <dom-module id="person-button">
   <template>
     <style>
+    paper-button {
+      font-size: 11px;
+      width: 55px;
+    }
     </style>
 
 
 
     <firebase-document path="/people/[[selected]]" data="{{data}}">
     </firebase-document> <!-- geen / na path -->
-    <paper-button>{{data.Roepnaam}} {{data.Achternaam}}</paper-button>
+    <paper-button>{{data.Achternaam}}<br>{{data.Roepnaam}}</paper-button>
   </template>
 
   <script>
