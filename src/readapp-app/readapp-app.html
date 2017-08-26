@@ -1,0 +1,31 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../test-app/test-app.html">
+<link rel="import" href="../small-person-block/small-person-block.html">
+
+<dom-module id="readapp-app">
+  <template>
+    <style>
+    </style>
+    <test-app></test-app>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class ReadappApp extends Polymer.Element {
+      static get is() { return 'readapp-app'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'readapp-app'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(ReadappApp.is, ReadappApp);
+  </script>
+</dom-module>

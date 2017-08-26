@@ -1,0 +1,39 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+
+
+<dom-module id="person-button">
+  <template>
+    <style>
+    </style>
+
+
+
+    <firebase-document
+    path="/people/[[selected]]"
+    data="{{data}}">
+    </firebase-document> <!-- geen / na path -->
+    <paper-button>{{data.Roepnaam}} {{data.Achternaam}}</paper-button>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class PersonButton extends Polymer.Element {
+      static get is() { return 'person-button'; }
+      static get properties() {
+        return {
+          selected: {
+            type: String
+          }
+        };
+      }
+    }
+
+    window.customElements.define(PersonButton.is, PersonButton);
+  </script>
+</dom-module>

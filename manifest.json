@@ -1,0 +1,7 @@
+{
+  "name": "readapp",
+  "short_name": "readapp",
+  "description": "nada",
+  "start_url": "/",
+  "display": "standalone"
+}

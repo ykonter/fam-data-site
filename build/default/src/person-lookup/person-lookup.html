@@ -1,0 +1,99 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-autocomplete/paper-autocomplete.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../small-person-block/small-person-block.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+
+
+<dom-module id="person-lookup">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <!-- lookup all people -->
+    <firebase-document path="/people" data="{{peeps}}">
+    </firebase-document> <!-- geen / na path -->
+
+    <firebase-document path="/people/[[selected]]" data="{{pdata}}">
+    </firebase-document> <!-- geen / na path -->
+
+    <!-- wrap in a card -->
+    <p>Lookup a relative</p>
+    <!-- <paper-card> -->
+      <!-- person selector -->
+      <paper-input label="Lookup:" value="{{query2}}" id="boxy2"></paper-input>
+
+      <!-- populate suggestions -->
+      <paper-autocomplete-suggestions for="boxy2" source="[[_retrieve_array(peeps)]]" selectedoption="{{selected}}">
+      </paper-autocomplete-suggestions>
+
+
+    <!-- </paper-card>-->
+
+
+  </template>
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class PersonLookup extends Polymer.Element {
+
+      // define self
+      static get is() { return 'person-lookup'; }
+
+      // init properties
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'readapp-app'
+          },
+          is_selected: {
+            type: Boolean,
+            value: false,
+            notify: true
+          },
+          selected:{
+            type: String,
+            value: 'init',
+            notify: true
+          }
+        };
+      }
+
+      // load all people from db into auto-complete data
+      _retrieve_array(data) {
+        var  test = [];
+        for (var key in data) {
+          if (data.hasOwnProperty(key)) {
+            var pers = data[key];
+            var block = {"text": pers["Roepnaam"] + " " + pers["Achternaam"] + " " + pers["Geboren"] , "value":key}
+            test.push(block)
+            var block = {"text": pers["Achternaam"] + " " + pers["Roepnaam"] + " " + pers["Geboren"] , "value":key}
+            test.push(block)
+            var block = {"text": pers["Geboren"] + " " + pers["Roepnaam"] + " " + pers["Achternaam"] , "value":key}
+            test.push(block)
+            // console.log(key + " -> " + data[key] + " -> " + pers_st + " -> " + data[key]["Roepnaam"]);
+          }
+        }
+        return test;
+      }
+
+      // update
+      ready() {
+        super.ready();
+        this.addEventListener('autocomplete-selected', function (event) {console.log(event.detail.value)});
+        this.addEventListener('autocomplete-selected', function (event) {this.selected = event.detail.value});
+        this.addEventListener('autocomplete-selected', function (event) {this.is_selected = true});
+      }
+
+    }
+
+    window.customElements.define(PersonLookup.is, PersonLookup);
+  </script>
+</dom-module>

@@ -1,0 +1,42 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+
+
+<dom-module id="small-person-block">
+  <template>
+    <style>
+    </style>
+
+    <!--
+    <paper-card>
+    <paper-input label="Roepnaam" value={{data.Roepnaam}}></paper-input>
+    <paper-input label="Achternaam" value={{data.Achternaam}}></paper-input>
+    </paper-card>
+  -->
+  <paper-button raised="">{{data.Roepnaam}} {{data.Achternaam}}</paper-button>
+
+
+  </template>
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class SmallPersonBlock extends Polymer.Element {
+      static get is() { return 'small-person-block'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'readapp-app'
+          },
+          data : {type :Object, value: {'Roepnaam':'none', 'Achternaam':'none'}}
+        };
+      }
+    }
+
+    window.customElements.define(SmallPersonBlock.is, SmallPersonBlock);
+  </script>
+</dom-module>

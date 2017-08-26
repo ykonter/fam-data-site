@@ -1,0 +1,113 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="./person-button.html">
+
+
+<dom-module id="full-people">
+  <template>
+    <style>
+    body {
+display: flex;
+align-items: center;
+justify-content: center;
+}
+paper-card {
+max-width: 600px;
+}
+.cafe-header { @apply --paper-font-headline; }
+.cafe-light { color: var(--paper-grey-600); }
+.cafe-location {
+float: right;
+font-size: 15px;
+vertical-align: middle;
+}
+iron-icon.star:last-of-type { color: var(--paper-grey-500); }
+    </style>
+
+    <!--
+    <paper-card>
+    <paper-input label="Roepnaam" value={{data.Roepnaam}}></paper-input>
+    <paper-input label="Achternaam" value={{data.Achternaam}}></paper-input>
+    </paper-card>
+  -->
+
+
+
+
+    <template is="dom-if" if="[[is_on]]">
+      <firebase-document
+      path="/people/[[selected]]"
+      data="{{data}}">
+      </firebase-document> <!-- geen / na path -->
+
+      <firebase-document
+      path="/people/[[selected]]/lin"
+      data="{{data_lin}}">
+      </firebase-document> <!-- geen / na path -->
+
+      <paper-card>
+        <template is="dom-if" if="[[editable]]">
+
+        <paper-input label="Achternaam" value={{data.Achternaam}} disabled></paper-input>
+        <paper-input label="Roepnaam" value={{data.Roepnaam}} disabled></paper-input>
+        <paper-input label="Voornamen" value={{data.Voornamen}} disabled></paper-input>
+        <paper-input label="Email" value={{data.Email}} disabled></paper-input>
+        <paper-input label="Geboren" value={{data.Geboren}} disabled></paper-input>
+        <paper-input label="Land" value={{data.Land}} disabled></paper-input>
+        <paper-input label="Plaats" value={{data.Plaats}} disabled></paper-input>
+        <paper-input label="Telefoonnummer" value={{data.Telefoonnummer}} disabled></paper-input>
+        </template>
+        <template is="dom-if" if="[[!editable]]">
+          <div class="card-content">
+            <div class="cafe-header">[[data.Roepnaam]] [[data.Achternaam]]
+              <div class="cafe-location cafe-light">
+                <span>[[data.Geboren]] </span>
+              </div>
+            </div>
+            <p> [[data.Plaats]], [[data.Land]] </p>
+            <p class="cafe-light">[[data.Email]], [[data.Telefoonnummer]]</p>
+          </div>
+          <div class="card-actions">
+            <div class="horizontal justified">
+
+              <template is="dom-repeat" items="[[data_lin]]">
+                <person-button selected="[[item]]"></person-button>
+              </template>
+            </div>
+          </div>
+        </template>
+      </paper-card>
+
+    </template>
+  </template>
+
+
+
+  </template>
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class FullPeople extends Polymer.Element {
+      static get is() { return 'full-people'; }
+      static get properties() {
+        return {
+          data: {
+            type: Object
+          },
+          selected:
+          {
+            type: String
+          },
+          is_on: {type:Boolean, value: false},
+          editable: {type:Boolean, value:false}
+        };
+      }
+    }
+
+    window.customElements.define(FullPeople.is, FullPeople);
+  </script>
+</dom-module>
