@@ -1,0 +1,56 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../small-person-block/small-person-block.html">
+<link rel="import" href="person-lookup.html">
+<link rel="import" href="full-people.html">
+
+
+<dom-module id="main-lookup-window">
+  <template>
+    <style></style>
+
+    <firebase-app
+    auth-domain="fam-data.firebaseapp.com"
+    database-url="https://fam-data.firebaseio.com"
+    api-key="AIzaSyAgaU3OQHbglNDTmPrQlYr0hQg_M_MyA5Y"
+    storage-bucket="fam-data.appspot.com"
+    messaging-sender-id="852264543005">
+    </firebase-app>
+
+    <firebase-document
+    path="/people"
+    data="{{peeps}}">
+    </firebase-document> <!-- geen / na path -->
+
+    <person-lookup is_selected="{{is_selected}}" selected="{{selected}}"></person-lookup>
+
+    <full-people is_on="[[is_selected]]" selected="[[selected]]"></full-people>
+
+    <!-- depricated, keep as example
+    <template is="dom-repeat" items="[[peeps]]">
+      <small-person-block data="{{item}}"></small-person-block>
+    </template>
+  -->
+
+
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class MainLookupWindow extends Polymer.Element {
+      static get is() { return 'main-lookup-window'; }
+      static get properties() {
+        return {
+          is_selected: {type: Boolean},
+          selected: {type: String}
+        };
+      }
+    }
+
+    window.customElements.define(MainLookupWindow.is, MainLookupWindow);
+  </script>
+</dom-module>
